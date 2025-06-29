@@ -8,8 +8,8 @@ CREATE TABLE formas_pagamento (id SERIAL PRIMARY KEY, descricao VARCHAR(100) NOT
 CREATE TABLE clientes (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
-    tipo VARCHAR(2) NOT NULL CHECK (tipo IN ('PF', 'PJ')),
-    documento VARCHAR(20) NOT NULL UNIQUE,
+    tipo VARCHAR(2) NOT NULL,
+    documento VARCHAR(20) NOT NULL,
     email VARCHAR(150),
     telefone VARCHAR(20),
     endereco TEXT
@@ -34,17 +34,17 @@ CREATE TABLE produtos (
 
 CREATE TABLE estoque (
     id SERIAL PRIMARY KEY,
-    produto_id INT REFERENCES produtos(id),
+    produto_id INT,
     quantidade INT NOT NULL,
     data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE vendas (
     id SERIAL PRIMARY KEY,
-    cliente_id INT REFERENCES clientes(id),
-    vendedor_id INT REFERENCES vendedores(id),
-    data_venda TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    forma_pagamento_id INT REFERENCES formas_pagamento(id),
+    cliente_id INT,
+    vendedor_id INT,
+    data_venda TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    forma_pagamento_id INT,
     valor_total NUMERIC(10,2),
     desconto NUMERIC(10,2) DEFAULT 0,
     imposto NUMERIC(10,2) DEFAULT 0
@@ -52,8 +52,8 @@ CREATE TABLE vendas (
 
 CREATE TABLE itens_venda (
     id SERIAL PRIMARY KEY,
-    venda_id INT REFERENCES vendas(id) ON DELETE CASCADE,
-    produto_id INT REFERENCES produtos(id),
+    venda_id INT,
+    produto_id INT,
     quantidade INT NOT NULL,
     preco_unitario NUMERIC(10,2) NOT NULL,
     total_item NUMERIC(10,2) NOT NULL
@@ -61,8 +61,8 @@ CREATE TABLE itens_venda (
 
 CREATE TABLE comissoes (
     id SERIAL PRIMARY KEY,
-    vendedor_id INT REFERENCES vendedores(id),
-    venda_id INT REFERENCES vendas(id),
+    vendedor_id INT,
+    venda_id INT,
     percentual NUMERIC(5,2) NOT NULL,
     valor NUMERIC(10,2) NOT NULL
 );
@@ -90,7 +90,15 @@ INSERT INTO categorias (nome) VALUES
 ('Categoria 7'),
 ('Categoria 8'),
 ('Categoria 9'),
-('Categoria 10');
+('Categoria 10'),
+(''),
+('Categoria 10'),
+('Categoria 1'),
+('Categoria 2'),
+('Categoria 2'),
+('Categoria $-#&*%#2'),
+('Categoria 5'),
+('');
 
 INSERT INTO marcas (nome) VALUES
 ('Marca 1'),
@@ -102,7 +110,17 @@ INSERT INTO marcas (nome) VALUES
 ('Marca 7'),
 ('Marca 8'),
 ('Marca 9'),
-('Marca 10');
+('Marca 10'),
+('marca 1'),
+('MARCA 2'),
+('Marca-3'),
+('Mar#ca 4'),
+('Marcca 5'),
+('M@rca_6'),
+('Marca  7'),
+(''),
+(''),
+('12345678901234567890123456789012345678901234567890123456789012345678901234567234567890EXTRA');
 
 INSERT INTO cores (nome) VALUES
 ('Cor 1'),
@@ -114,14 +132,34 @@ INSERT INTO cores (nome) VALUES
 ('Cor 7'),
 ('Cor 8'),
 ('Cor 9'),
-('Cor 10');
+('Cor 10'),
+('cor 1'),        
+('COR 2'),        
+('Cor-3'),        
+('C0r 4'),        
+('C@r 5'),        
+('Cor##6'),       
+('Cor  7'),       
+(''),             
+(''),           
+('cor-extravagante-azulada-espacial-com-néon'); 
 
 INSERT INTO formas_pagamento (descricao) VALUES
 ('Forma de Pagamento 1'),
 ('Forma de Pagamento 2'),
 ('Forma de Pagamento 3'),
 ('Forma de Pagamento 4'),
-('Forma de Pagamento 5');
+('Forma de Pagamento 5'),
+('forma de pagamento 1'),
+('FORMA DE PAGAMENTO 2'),
+('Forma-Pagamento 3'),
+('F0rma de Pagamento 4'),
+('Forma@@ 5'),
+('Forma de Pagamento  2'),
+(''),
+(''),
+('Pix parcelado no boleto em até 24x sem juros com cashback');
+
 
 INSERT INTO clientes (nome, tipo, documento, email, telefone, endereco) VALUES
 ('Ramos', 'PJ', '26.170.935/0001-00', 'yasmin46@lopes.net', '+55 81 2139-0218', 'Núcleo Sarah Fogaça, 55, Conjunto Califórnia I, 37165709 Almeida do Campo / AM'),
@@ -173,7 +211,17 @@ INSERT INTO clientes (nome, tipo, documento, email, telefone, endereco) VALUES
 ('Monteiro Viana e Filhos', 'PJ', '83.197.425/0001-60', 'ebarbosa@da.net', '+55 (021) 7166 0755', 'Morro Duarte, 6, Solimoes, 24190113 Moreira das Flores / AP'),
 ('Moura', 'PJ', '46.725.319/0001-85', 'joao-pedrorocha@bol.com.br', '+55 81 2887 1876', 'Residencial Ribeiro, 9, Alta Tensão 1ª Seção, 28711422 Fogaça de Goiás / RS'),
 ('Duarte Moreira e Filhos', 'PJ', '02.458.371/0001-47', 'da-conceicaocecilia@mendes.com', '+55 61 3008 6417', 'Loteamento Cunha, 88, Mangabeiras, 15407-705 da Paz do Norte / MT'),
-('Isabelly Farias', 'PF', '634.702.581-71', 'da-rochavalentina@bol.com.br', '+55 21 4221-9074', 'Vereda Alice Gomes, 617, Barreiro, 40165-613 Silva / AC');
+('Isabelly Farias', 'PF', '634.702.581-71', 'da-rochavalentina@bol.com.br', '+55 21 4221-9074', 'Vereda Alice Gomes, 617, Barreiro, 40165-613 Silva / AC'),
+('rocha santos', 'PJ', '15.703.984/0001-44', 'oliveiraana-carolina@almeida.com', '(041) 0523 7301', 'Parque Ribeiro, 6, Vila São Paulo, 63730594 Barbosa / AC'),
+('Araújo', 'pf', '142.065.938-33', 'pietra68@santos.br', '(051) 9296 0191', 'Rodovia de Alves, 15, Caiçara - Adelaide, 58466-445 da Cruz / RR'),
+('M0reira', 'PF', '530.684.791-93', 'bda-luz@ferreira.br', '+55 11 6543-9270', 'Estrada Moraes, 95, Conjunto Capitão Eduardo, 96856056 Porto do Oeste / PA'),
+('Alves!', 'PJ', '40.296.731/0001-40', 'isisramos@costela.com', '', 'Setor Anthony Azevedo, 84, Vila Nova Gameleira 3ª Seção, 43808-026 Dias / SC'),
+('', 'PJ', '26.170.935/0001-00', 'yasmin46@lopes.net', '+55 81 2139-0218', 'Núcleo Sarah Fogaça, 55, Conjunto Califórnia I, 37165709 Almeida do Campo / AM'),
+('Silva', 'XX', '26.170.935/0001-00', 'emailinvalido.com', '+55 81 2139-0218', 'Endereço inválido sem número'),
+('Fernanda Ferreira', 'PF', '', 'fernanda@gmail.com', '11 9999-0000', 'Rua das Rosas, 123, Centro'),
+('Eduardo Lima', 'PJ', '123456789', 'eduardo@@gmail.com', NULL, NULL),
+('João Pedro', 'PJ', '15.703.984/0001-44', '', '(041) 0523 7301', NULL),
+('', 'PF', '530.684.791-93', 'bda-luz@ferreira.br', '', 'Endereço qualquer');
 
 INSERT INTO vendedores (nome, email, telefone) VALUES
 ('Francisco da Mota', 'marcela98@gmail.com', '0500-376-4105'),
@@ -225,7 +273,28 @@ INSERT INTO vendedores (nome, email, telefone) VALUES
 ('Maria Sophia da Rosa', 'bcardoso@pinto.com', '(071) 0522 0853'),
 ('Anthony Silva', 'cecilia08@ig.com.br', '(051) 4426 7272'),
 ('Dra. Olivia Gomes', 'alexia42@ig.com.br', '(031) 3779-5559'),
-('Bianca Souza', 'fariasluana@alves.net', '+55 (031) 9565 7120');
+('Bianca Souza', 'fariasluana@alves.net', '+55 (031) 9565 7120'),
+('francisco da mota', 'marcela98@gmail.com', '0500-376-4105'),
+('Thalles Vieira', 'bernardojesus@pinto.br', '21 4738 6531'),
+('Alexia L!ma', 'ipinto@gmail.com', '+55 21 1378-1228'),
+('Agata Martins', 'mcorreia@yahoo.com', '+55 (061) 8792 7408'),
+('Srta. Maria', '', '(041) 6487-4175'),
+('Sr. João Mendes', 'joaomendes.com.br', '(011) 0000-0000'),
+('Almeida', 'murilo75@almeida.org', NULL),
+('', 'sememail@email.com', '0500-146-0611'),
+('', NULL, NULL),
+('Srta. Daniela Ribeiro', 'leandro68@da.br', 'telefone inválido'),
+('Srta. daniela ribeiro', 'leandro68@da.br', '+55 (084) 4636-7212'),
+('francisco da mota', 'marcela98@gmail.com', '0500-376-4105'),
+('Alexia L1ma', 'ipinto@gmail.com', '21 1378-1228'),
+('Th@les Vieira', 'bernardojesus@pinto.br', '21 4738-6531'),
+('Maysa Pires', 'isabellada-rocha@@santos.net', '+55 51 4870 4860'),
+('Agatha Martins', 'mcorreia#yahoo.com.br', ''),
+('Maria Eduarda Peixoto', '', '(041) 6487 4175'),
+('', 'stephany80@araujo.com', '0500-146-0611'),
+('', NULL, NULL),
+('Alana Almeida', 'murilo75@almeida.org', 'telefone inválido');
+
 
 INSERT INTO produtos (nome, preco, categoria_id, marca_id, cor_id, ativo) VALUES
 ('Produto 1', 228.53, 9, 7, 4, True),
@@ -327,7 +396,18 @@ INSERT INTO produtos (nome, preco, categoria_id, marca_id, cor_id, ativo) VALUES
 ('Produto 97', 173.48, 3, 5, 1, True),
 ('Produto 98', 690.02, 7, 3, 6, True),
 ('Produto 99', 1987.76, 9, 8, 6, True),
-('Produto 100', 1884.21, 7, 6, 9, True);
+('Produto 100', 1884.21, 7, 6, 9, True),
+('produto 1', -228.53, NULL, 7, 4, false),
+('Produto 2', 893.26, 10, NULL, 7, false),
+('Produto 3', 1641.91, 10, 6, 1, True),
+('Produto 4', 0, 9, 5, 9, True),
+('Produto 5', 559.31, NULL, 1, 10, false),
+('Produtoo 6', 403.17, 7, 1, 9, false),
+('Produto_7', 78.6, 3, 8, 6, True),
+('Produto 8', 1834.36, 1, 5, NULL, True),
+('Produto 9', 1916.49, 8, 4, 4, True),
+('Prod#uto 10', 100.00, 5, 2, 3, True);
+
 
 INSERT INTO estoque (produto_id, quantidade) VALUES
 (1, 16),
@@ -429,7 +509,28 @@ INSERT INTO estoque (produto_id, quantidade) VALUES
 (97, 119),
 (98, 168),
 (99, 55),
-(100, 100);
+(100, 100),
+(1, 16),
+(2, -5),
+(3, 119),
+(4, 0),
+(999, 196),
+(6, 65),
+(7, -1),
+(8, 47),
+(9, 133),
+(10, 188),
+(1, -16),
+(2, 0),
+(3, 119),
+(4, -3),
+(5, 196),
+(6, 65),
+(7, -5),
+(8, 47),
+(9, 133),
+(10, 100000);
+
 
 INSERT INTO vendas (id, cliente_id, vendedor_id, data_venda, forma_pagamento_id, valor_total, desconto, imposto) VALUES
 (1, 43, 27, '2025-02-22 00:57:46', 3, 4940.83, 130.93, 92.56),
@@ -531,7 +632,27 @@ INSERT INTO vendas (id, cliente_id, vendedor_id, data_venda, forma_pagamento_id,
 (97, 34, 31, '2024-11-15 02:46:39', 4, 21077.53, 22.99, 93.02),
 (98, 49, 31, '2025-03-28 22:17:39', 1, 11993.39, 183.23, 80.03),
 (99, 16, 23, '2025-05-30 15:51:25', 4, 7961.5, 73.21, 44.21),
-(100, 6, 28, '2024-08-12 10:04:34', 4, 4106.15, 76.98, 59.73);
+(100, 6, 28, '2024-08-12 10:04:34', 4, 4106.15, 76.98, 59.73),
+(101, 43, 27, '2025-02-22 00:57:46', 3, 4940.83, 130.93, 92.56),
+(102, 2, 24, '2024-06-25 15:24:27', 5, -12217.05, 198.28, 49.99),
+(103, 20, 29, '2024-12-10 13:31:50', 5, 1687.7, NULL, 19.95),
+(104, 3, 12, '2024-10-20 07:05:03', 3, 8588.98, 61.14, -42.32),
+(105, 2, 22, '2025-02-17 07:23:51', 999, 11069.48, 63.28, 30.3),
+(106, 25, 7, '', 5, 5010.77, 199.17, 14.94),
+(107, 23, 16, '2025-05-14 05:41:31', 3, 7679.75, 46.14, 23.38),
+(108, 35, NULL, '2024-06-26 04:13:00', 5, 6450.4, 198.76, 81.52),
+(109, 49, 36, '2025-01-16 06:28:28', 1, 1465.49, 51.9, 53.75),
+(110, 18, 27, '2024-11-22 12:04:42', 1, NULL, 97.1, 78.48),
+(111, 43, 27, '22/02/2025 00:57:46', 3, 4940.83, 130.93, 92.56),
+(112, 2, 24, '06-25-2024 15:24:27', 5, -12217.05, 198.28, 49.99),
+(113, 20, 29, '2024/12/10 13:31:50', 5, 1687.7, -136.5, 19.95),
+(114, 3, 12, '20-10-2024 07:05:03', 3, 8588.98, 61.14, -42.32),
+(115, 2, 22, '17/02/2025', 4, 11069.48, 63.28, 30.3),
+(116, 25, 7, '', 5, 5010.77, 199.17, 14.94),
+(117, 23, 16, '2025.05.14 05:41:31', 3, 0, 46.14, 23.38),
+(118, 35, 41, '26-06-2024 04:13:00', 5, 6450.4, 198.76, 81.52),
+(119, 49, 36, '2025/01/16 06:28:28', 1, 1465.49, 51.9, 53.75),
+(120, 18, 27, '2024/11/22 12:04:42', 1, 3963.54, 97.1, 78.48);
 
 INSERT INTO itens_venda (venda_id, produto_id, quantidade, preco_unitario, total_item) VALUES
 (1.0, 13.0, 2.0, 1298.6, 2597.2),
@@ -787,7 +908,28 @@ INSERT INTO itens_venda (venda_id, produto_id, quantidade, preco_unitario, total
 (99.0, 40.0, 3.0, 1463.64, 4390.92),
 (99.0, 62.0, 2.0, 1799.79, 3599.58),
 (100.0, 91.0, 2.0, 1859.43, 3718.86),
-(100.0, 33.0, 1.0, 404.54, 404.54);
+(100.0, 33.0, 1.0, 404.54, 404.54),
+(1.0, 13.0, -2.0, 1298.6, -2597.2),
+(1.0, 300.0, 3.0, 794.0, 2382.0),
+(2.0, 45.0, 0.0, 1526.52, 0.0),
+(2.0, 83.0, 2.0, -1991.08, -3982.16),
+(2.0, 23.0, 1.0, 1870.86, 1870.86),
+(2.0, NULL, 2.0, 966.38, 1932.76),
+(3.0, 10.0, 1.0, 1804.25, 1804.25),
+(4.0, 81.0, 5.0, 103.84, 519.2),
+(4.0, 27.0, 4.0, 560.55, 0),
+(4.0, 34.0, 3.0, 1948.8, 5846.4),
+(NULL, 40.0, 1.0, 1463.64, 1463.64),
+(1, 13, -2, 1298.6, -2597.2),
+(1, 999, 3, 794.0, 2382.0),
+(2, 45, 3, -1526.52, -4579.56),
+(2, 83, 2, 1991.08, 0),
+(2, 23, 0, 1870.86, 0),
+(2, 57, 0, 966.38, 0),
+(3, 10, 1, 1804.25, 1804.25),
+(4, 81, 5, 103.84, 519.2),
+(4, 27, 4, 560.55, 2242.2),
+(4, 34, 3, 0, 0);
 
 INSERT INTO comissoes (vendedor_id, venda_id, percentual, valor) VALUES
 (27.0, 1.0, 9.63, 475.8),
@@ -889,7 +1031,28 @@ INSERT INTO comissoes (vendedor_id, venda_id, percentual, valor) VALUES
 (31.0, 97.0, 3.29, 693.45),
 (31.0, 98.0, 8.51, 1020.64),
 (23.0, 99.0, 7.55, 601.09),
-(28.0, 100.0, 6.96, 285.79);
+(28.0, 100.0, 6.96, 285.79),
+(27.0, 1.0, -9.63, -475.8),
+(24.0, 2.0, 2.99, 365.29),
+(29.0, 3.0, 150.0, 152.74),
+(12.0, 4.0, 6.02, 517.06),
+(22.0, 5.0, 8.2, 0),
+(7.0, NULL, 3.37, 168.86),
+(16.0, 7.0, 4.76, 365.56),
+(41.0, 8.0, 5.33, 343.81),
+(36.0, 9.0, 9.34, 136.88),
+(27.0, 10.0, 8.67, 343.64),
+(22.0, 11.0, 0, 371.14),
+(27, 1, -9.63, -475.8),
+(24, 2, 102.0, 365.29),
+(29, 3, 9.05, 0),
+(12, 4, 0, 517.06),
+(22, 5, 8.2, 907.7),
+(7, 6, 3.37, 168.86),
+(16, 999, 4.76, 365.56),
+(41, 8, 5.33, 343.81),
+(36, 9, 9.34, 136.88),
+(27, 10, 0, 343.64);
 
 WITH datas AS (
     SELECT generate_series('2024-01-01'::date, '2024-04-09'::date, interval '1 day')::date AS data

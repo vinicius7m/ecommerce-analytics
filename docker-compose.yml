@@ -6,12 +6,12 @@ services:
     container_name: postgres_vendas
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: vendasdb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "15432:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/01_init.sql
-      - ./views.sql:/docker-entrypoint-initdb.d/02_views.sql
+      - ./data/raw/init.sql:/docker-entrypoint-initdb.d/01_init.sql
+      - ./data/processed/views.sql:/docker-entrypoint-initdb.d/02_views.sql
     command: postgres -c listen_addresses='*'
