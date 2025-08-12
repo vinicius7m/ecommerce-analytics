@@ -84,7 +84,7 @@ cd ecommerce-analytics
 
 ## 🖼 **Preview do Dashboard**
 
----
+![Dashboard Principal](media/diretoria.png)
 
 ## 🧠 **Conceitos Aplicados**
 
